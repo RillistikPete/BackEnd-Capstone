@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using BECaptsone.Models;
 using BECaptsone.Models.AccountViewModels;
 using BECaptsone.Services;
+using BECaptsone.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BECaptsone.Controllers
 {
@@ -19,18 +21,22 @@ namespace BECaptsone.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserStore<ApplicationUser> _userstore;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
-
+        private readonly ApplicationDbContext _context; 
+        
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
+            ApplicationDbContext context,  
+              
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
@@ -39,7 +45,11 @@ namespace BECaptsone.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _context = context;
+            _userstore = new UserStore<ApplicationUser>(context);
         }
+
+          
 
         //
         // GET: /Account/Login
@@ -92,12 +102,15 @@ namespace BECaptsone.Controllers
             return View(model);
         }
 
-        //
+
         // GET: /Account/Register
         [HttpGet]
+
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            //creating the select list in Register.cshtml that has dropdown for Roles
+            ViewBag.Name = new SelectList(_context.Roles.ToList(), "Name", "Name");   
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -112,7 +125,8 @@ namespace BECaptsone.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -122,16 +136,28 @@ namespace BECaptsone.Controllers
                     //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                
+
+                if (model.UserRoles == "Doctor")
+                {
+                    await _userstore.AddToRoleAsync(user, "Doctor");
+                }
+                else if (model.UserRoles == "Patient")
+                {
+                    await _userstore.AddToRoleAsync(user, "Patient");
+                }
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+                ViewBag.Name = new SelectList(_context.Roles.ToList(), "Name", "Name");   
+                AddErrors(result);   
+            }   
+   
+            // If we got this far, something failed, redisplay form   
+            return View(model);   
+        }  
 
         //
         // POST: /Account/Logout
