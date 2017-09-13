@@ -10,7 +10,7 @@ namespace BECaptsone.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+                return View();
         }
 
         public IActionResult About()
@@ -31,5 +31,10 @@ namespace BECaptsone.Controllers
         {
             return View();
         }
+
+        // public IActionResult WhichViewToDisplay()
+        // {
+
+        // }
     }
 }
