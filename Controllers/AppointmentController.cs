@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BECaptsone.Data;
 using BECaptsone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BECaptsone.Controllers
 {
@@ -20,6 +21,7 @@ namespace BECaptsone.Controllers
         }
 
         // GET: Appointment
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
@@ -47,6 +49,7 @@ namespace BECaptsone.Controllers
         }
 
         // GET: Appointment/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "Expertise");

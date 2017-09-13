@@ -142,11 +142,11 @@ namespace BECaptsone.Controllers
 
                 if (model.UserRoles == "Doctor")
                 {
-                    await _userstore.AddToRoleAsync(user, "Doctor");
+                    await _userManager.AddToRoleAsync(user, "Doctor");
                 }
                 else if (model.UserRoles == "Patient")
                 {
-                    await _userstore.AddToRoleAsync(user, "Patient");
+                    await _userManager.AddToRoleAsync(user, "Patient");
                 }
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);

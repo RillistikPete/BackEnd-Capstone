@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BECaptsone.Data;
 using BECaptsone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BECaptsone.Controllers
 {
@@ -20,12 +21,14 @@ namespace BECaptsone.Controllers
         }
 
         // GET: Doctor
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Doctor.ToListAsync());
         }
 
         // GET: Doctor/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +47,7 @@ namespace BECaptsone.Controllers
         }
 
         // GET: Doctor/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
