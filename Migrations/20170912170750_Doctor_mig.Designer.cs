@@ -8,9 +8,10 @@ using BECaptsone.Data;
 namespace BECaptsone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170912170750_Doctor_mig")]
+    partial class Doctor_mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -24,8 +25,6 @@ namespace BECaptsone.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<string>("CustomUserName");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
