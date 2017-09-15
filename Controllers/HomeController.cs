@@ -31,10 +31,5 @@ namespace BECaptsone.Controllers
         {
             return View();
         }
-
-        // public IActionResult WhichViewToDisplay()
-        // {
-
-        // }
     }
 }

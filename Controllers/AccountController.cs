@@ -103,18 +103,37 @@ namespace BECaptsone.Controllers
         }
 
 
-        // GET: /Account/Register
+        // GET: /Account/Register  -- GET on 'Register' on LoginPartial.cshtml
         [HttpGet]
 
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
-            //creating the select list in Register.cshtml that has dropdown for Roles
-            ViewBag.Name = new SelectList(_context.Roles.ToList(), "Name", "Name");   
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
+
+        // GET: /Account/Register - GET on 'register' buttons on Register.cshtml
+        [HttpGet]
+        [AllowAnonymous]
+
+        // returnUrl = null  is telling it that it is optional
+        public IActionResult RegisterDocOrPat(string id, string returnUrl = null)
+        {
+            // put if statement here for which register view to show
+            if ( id == "Doctor")
+            {
+                return View("RegisterDoctor");
+            }
+            if ( id == "Patient")
+            {
+                return View("RegisterPatient");
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
         //
         // POST: /Account/Register
         [HttpPost]
@@ -146,7 +165,7 @@ namespace BECaptsone.Controllers
                 }
                 else if (model.UserRoles == "Patient")
                 {
-                    await _userManager.AddToRoleAsync(user, "Patient");
+                    await _userstore.AddToRoleAsync(user, "Patient");
                 }
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
