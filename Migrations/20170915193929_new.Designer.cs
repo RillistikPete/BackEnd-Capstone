@@ -8,8 +8,8 @@ using BECaptsone.Data;
 namespace BECaptsone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170912171516_Appointment_mig")]
-    partial class Appointment_mig
+    [Migration("20170915193929_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,10 +26,19 @@ namespace BECaptsone.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("CustomUserName");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -64,6 +73,8 @@ namespace BECaptsone.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("BECaptsone.Models.Appointment", b =>
@@ -75,51 +86,19 @@ namespace BECaptsone.Migrations
 
                     b.Property<int>("DoctorId");
 
+                    b.Property<string>("DoctorId1");
+
                     b.Property<int>("PatientId");
+
+                    b.Property<string>("PatientId1");
 
                     b.HasKey("AppointmentId");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("DoctorId1");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("PatientId1");
 
                     b.ToTable("Appointment");
-                });
-
-            modelBuilder.Entity("BECaptsone.Models.Doctor", b =>
-                {
-                    b.Property<int>("DoctorId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Expertise")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("DoctorId");
-
-                    b.ToTable("Doctor");
-                });
-
-            modelBuilder.Entity("BECaptsone.Models.Patient", b =>
-                {
-                    b.Property<int>("PatientId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("StateOfIllness")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("PatientId");
-
-                    b.ToTable("Patient");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -229,17 +208,52 @@ namespace BECaptsone.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("BECaptsone.Models.Doctor", b =>
+                {
+                    b.HasBaseType("BECaptsone.Models.ApplicationUser");
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int>("DoctorId");
+
+                    b.Property<string>("Expertise")
+                        .IsRequired();
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Doctor");
+
+                    b.HasDiscriminator().HasValue("Doctor");
+                });
+
+            modelBuilder.Entity("BECaptsone.Models.Patient", b =>
+                {
+                    b.HasBaseType("BECaptsone.Models.ApplicationUser");
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int>("PatientId");
+
+                    b.Property<string>("StateOfIllness")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Patient");
+
+                    b.HasDiscriminator().HasValue("Patient");
+                });
+
             modelBuilder.Entity("BECaptsone.Models.Appointment", b =>
                 {
                     b.HasOne("BECaptsone.Models.Doctor", "Doctor")
                         .WithMany("Appointments")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DoctorId1");
 
                     b.HasOne("BECaptsone.Models.Patient", "Patient")
                         .WithMany("Appointments")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PatientId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -277,6 +291,20 @@ namespace BECaptsone.Migrations
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BECaptsone.Models.Doctor", b =>
+                {
+                    b.HasOne("BECaptsone.Models.ApplicationUser")
+                        .WithMany("Doctors")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("BECaptsone.Models.Patient", b =>
+                {
+                    b.HasOne("BECaptsone.Models.ApplicationUser")
+                        .WithMany("Patients")
+                        .HasForeignKey("ApplicationUserId");
                 });
         }
     }

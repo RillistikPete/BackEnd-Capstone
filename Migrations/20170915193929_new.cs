@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BECaptsone.Migrations
 {
-    public partial class Patient_mig : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,12 @@ namespace BECaptsone.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CustomUserName = table.Column<string>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -26,40 +30,22 @@ namespace BECaptsone.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    ApplicationUserId = table.Column<string>(nullable: true),
+                    DoctorId = table.Column<int>(nullable: true),
+                    Expertise = table.Column<string>(nullable: true),
+                    PatientId = table.Column<int>(nullable: true),
+                    StateOfIllness = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Doctor",
-                columns: table => new
-                {
-                    DoctorId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Expertise = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctor", x => x.DoctorId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Patient",
-                columns: table => new
-                {
-                    PatientId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    StateOfIllness = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Patient", x => x.PatientId);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,6 +74,35 @@ namespace BECaptsone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointment",
+                columns: table => new
+                {
+                    AppointmentId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    DoctorId = table.Column<int>(nullable: false),
+                    DoctorId1 = table.Column<string>(nullable: true),
+                    PatientId = table.Column<int>(nullable: false),
+                    PatientId1 = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointment", x => x.AppointmentId);
+                    table.ForeignKey(
+                        name: "FK_Appointment_AspNetUsers_DoctorId1",
+                        column: x => x.DoctorId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointment_AspNetUsers_PatientId1",
+                        column: x => x.PatientId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,33 +143,6 @@ namespace BECaptsone.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Appointment",
-                columns: table => new
-                {
-                    AppointmentId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Date = table.Column<DateTime>(nullable: false),
-                    DoctorId = table.Column<int>(nullable: false),
-                    PatientId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointment", x => x.AppointmentId);
-                    table.ForeignKey(
-                        name: "FK_Appointment_Doctor_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctor",
-                        principalColumn: "DoctorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Appointment_Patient_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patient",
-                        principalColumn: "PatientId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -215,14 +203,19 @@ namespace BECaptsone.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_DoctorId",
-                table: "Appointment",
-                column: "DoctorId");
+                name: "IX_AspNetUsers_ApplicationUserId",
+                table: "AspNetUsers",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_PatientId",
+                name: "IX_Appointment_DoctorId1",
                 table: "Appointment",
-                column: "PatientId");
+                column: "DoctorId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointment_PatientId1",
+                table: "Appointment",
+                column: "PatientId1");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -270,12 +263,6 @@ namespace BECaptsone.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "Doctor");
-
-            migrationBuilder.DropTable(
-                name: "Patient");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

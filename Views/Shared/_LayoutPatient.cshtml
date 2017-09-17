@@ -33,10 +33,10 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Appointment" asp-action="Index">My Appointments</a></li>
                     <li><a asp-area="" asp-controller="Doctor" asp-action="Index">Doctors</a></li>
-
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
+                @User.IsInRole("Patient")
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>

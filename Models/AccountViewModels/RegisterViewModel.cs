@@ -11,6 +11,14 @@ namespace BECaptsone.Models.AccountViewModels
         [Required]
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }
+        
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required]
         [EmailAddress]
@@ -18,8 +26,15 @@ namespace BECaptsone.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "UserName")]
+        [Display(Name = "User Name")]
         public string CustomUserName { get; set; }
+
+        [Display(Name = "Expertise")]
+        public string Expertise { get; set; }
+
+        [StringLength(100, ErrorMessage = "Please limit the state of illness description to 100 characters")]
+        [Display(Name = "State Of Illness Description")]
+        public string StateOfIllness { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -29,7 +44,7 @@ namespace BECaptsone.Models.AccountViewModels
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password must match confirmation password, ya dummy.")]
+        [Compare("Password", ErrorMessage = "The password must match confirmation password.")]
         public string ConfirmPassword { get; set; }
     }
 }

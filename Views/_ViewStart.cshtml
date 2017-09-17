@@ -1,8 +1,11 @@
 ﻿
 @{
-    if (User.IsInRole("Patient")) {
+    if (User.IsInRole("Doctor")) {
+        Layout = "_LayoutDoctor";
+    } else if (User.IsInRole("Patient")) {
         Layout = "_LayoutPatient";
     } else {
         Layout = "_Layout";
     }
 }
+
