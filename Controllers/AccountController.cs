@@ -145,9 +145,6 @@ namespace BECaptsone.Controllers
             if (ModelState.IsValid)
             {
                 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
@@ -156,22 +153,36 @@ namespace BECaptsone.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
                 
 
                 if (model.UserRoles == "Doctor")
                 {
-                    await _userManager.AddToRoleAsync(user, "Doctor");
+                    //creates doctor for tables in DB
+                    var user = new Doctor { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, Expertise = model.Expertise };
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _userManager.AddToRoleAsync(user, "Doctor");
+                        _context.SaveChanges();
+                    }
+                  
                 }
                 else if (model.UserRoles == "Patient")
                 {
-                    await _userstore.AddToRoleAsync(user, "Patient");
+                    //creates patients for table in DB
+                    var user = new Patient { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, StateOfIllness = model.StateOfIllness };
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _userManager.AddToRoleAsync(user, "Patient");
+                        _context.SaveChanges();
+                    }
                 }
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
-                }
-                ViewBag.Name = new SelectList(_context.Roles.ToList(), "Name", "Name");   
-                AddErrors(result);   
+                } 
             }   
    
             // If we got this far, something failed, redisplay form   

@@ -8,6 +8,7 @@ namespace BECaptsone.Models
     {
         public int DoctorId { get; set; }
 
+
         [Required]
         public string Expertise { get; set; }
  

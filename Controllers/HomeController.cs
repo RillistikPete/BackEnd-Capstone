@@ -8,8 +8,16 @@ namespace BECaptsone.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
+             if ( id == "Doctor")
+            {
+                return View("RegisterDoctor");
+            }
+            if ( id == "Patient")
+            {
+                return View("RegisterPatient");
+            }
                 return View();
         }
 

@@ -29,6 +29,13 @@ namespace BECaptsone.Models.AccountViewModels
         [Display(Name = "User Name")]
         public string CustomUserName { get; set; }
 
+        [Display(Name = "Expertise")]
+        public string Expertise { get; set; }
+
+        [StringLength(100, ErrorMessage = "Please limit the state of illness description to 100 characters")]
+        [Display(Name = "State Of Illness Description")]
+        public string StateOfIllness { get; set; }
+
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]

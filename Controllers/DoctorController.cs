@@ -8,22 +8,28 @@ using Microsoft.EntityFrameworkCore;
 using BECaptsone.Data;
 using BECaptsone.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace BECaptsone.Controllers
 {
     public class DoctorController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DoctorController(ApplicationDbContext context)
+        public DoctorController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;   
+            _userManager = userManager;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Doctor
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            var user = await GetCurrentUserAsync();
             return View(await _context.Doctor.ToListAsync());
         }
 
