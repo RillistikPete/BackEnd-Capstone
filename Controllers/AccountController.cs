@@ -158,7 +158,7 @@ namespace BECaptsone.Controllers
                 if (model.UserRoles == "Doctor")
                 {
                     //creates doctor for tables in DB
-                    var user = new Doctor { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, Expertise = model.Expertise };
+                    var user = new Doctor { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, FirstName = model.FirstName, LastName = model.LastName, Expertise = model.Expertise };
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -171,7 +171,7 @@ namespace BECaptsone.Controllers
                 else if (model.UserRoles == "Patient")
                 {
                     //creates patients for table in DB
-                    var user = new Patient { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, StateOfIllness = model.StateOfIllness };
+                    var user = new Patient { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, FirstName = model.FirstName, LastName = model.LastName, StateOfIllness = model.StateOfIllness };
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BECaptsone.Data;
 using BECaptsone.Models;
 using Microsoft.AspNetCore.Authorization;
+using BECaptsone.Models.AccountViewModels;
 
 namespace BECaptsone.Controllers
 {
@@ -24,8 +25,17 @@ namespace BECaptsone.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
-            return View(await applicationDbContext.ToListAsync());
+            //instantiate view model
+            AppointmentViewModel model = new AppointmentViewModel();
+
+            model.Appointments = await _context.Appointment
+                .Include(a => a.Patient)
+                .Include(a => a.Doctor)
+                .ToListAsync();
+
+            // var ApplicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
+            return View(model);
+            // return View(apptViewModel);
         }
 
         // GET: Appointment/Details/5
@@ -52,8 +62,12 @@ namespace BECaptsone.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "Expertise");
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "FirstName");
+            // ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "FullName");
+            // ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "FullName");
+
+            var doctors = Roles.GetUsersInRole("Doctor");
+            SelectList list = new SelectList(doctors);
+            ViewBag.Doctor = list;
             return View();
         }
 
