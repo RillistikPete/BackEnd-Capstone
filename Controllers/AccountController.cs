@@ -145,7 +145,7 @@ namespace BECaptsone.Controllers
             if (ModelState.IsValid)
             {
                 
-                {
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -182,7 +182,7 @@ namespace BECaptsone.Controllers
                 }
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
-                } 
+
             }   
    
             // If we got this far, something failed, redisplay form   

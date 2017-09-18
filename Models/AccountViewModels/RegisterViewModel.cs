@@ -8,7 +8,7 @@ namespace BECaptsone.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }
         
