@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BECaptsone.Data;
 using BECaptsone.Models;
 using Microsoft.AspNetCore.Authorization;
+using BECaptsone.Models.AccountViewModels;
 
 namespace BECaptsone.Controllers
 {
@@ -24,8 +25,17 @@ namespace BECaptsone.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
-            return View(await applicationDbContext.ToListAsync());
+            //instantiate view model for appt index
+            AppointmentViewModel model = new AppointmentViewModel();
+
+            model.Appointments = await _context.Appointment
+                .Include(a => a.Patient)
+                .Include(a => a.Doctor)
+                .ToListAsync();
+
+            // var ApplicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
+            return View(model);
+            // return View(apptViewModel);
         }
 
         // GET: Appointment/Details/5
@@ -49,20 +59,24 @@ namespace BECaptsone.Controllers
         }
 
         // GET: Appointment/Create
+
         [Authorize]
         public IActionResult Create()
+        
         {
-            ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "Expertise");
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "FirstName");
-            return View();
+            AppointmentViewModel vm = new AppointmentViewModel();
+            ViewData["DoctorId"] = new SelectList(_context.Doctor, "Id", "FullName");
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "FullName");
+            return View(vm);
         }
 
         // POST: Appointment/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,Date,DoctorId,PatientId")] Appointment appointment)
+        public async Task<IActionResult> Create(Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -70,10 +84,16 @@ namespace BECaptsone.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "Expertise", appointment.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "FirstName", appointment.PatientId);
-            return View(appointment);
+            
+            return RedirectToAction("Create", "Appointment");
         }
+
+
+
+
+
+
+
 
         // GET: Appointment/Edit/5
         public async Task<IActionResult> Edit(int? id)

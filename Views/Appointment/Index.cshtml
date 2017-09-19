@@ -1,10 +1,10 @@
-@model IEnumerable<BECaptsone.Models.Appointment>
+@model BECaptsone.Models.AccountViewModels.AppointmentViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Appointments</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,34 +12,40 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
             <th>
-                @Html.DisplayNameFor(model => model.Doctor)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Patient)
+                Doctor
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var app in Model.Appointments) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => app.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doctor.Expertise)
+                @Html.DisplayFor(modelItem => app.Doctor.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Patient.FirstName)
+                @Html.DisplayFor(modelItem => app.Patient.FirstName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AppointmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>
+                @Html.DisplayFor(modelItem => app.Patient.LastName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@app.AppointmentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@app.AppointmentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@app.AppointmentId">Delete</a>
             </td>
         </tr>
 }
