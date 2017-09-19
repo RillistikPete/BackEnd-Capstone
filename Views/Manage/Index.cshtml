@@ -1,5 +1,4 @@
 ﻿
-
 @model IndexViewModel
 @{
     ViewData["Title"] = "My Account";
@@ -15,8 +14,8 @@
     <dl class="dl-horizontal">
 
         <dt>Profile Photo:</dt>
-        <img src="">
-        <dt>User Name: @UserManager.CustomUserName</dt>
+        <img src="/DoctorPhotos/@Html.DisplayFor(model =>model.ImgPath)">
+        <dt></dt>
         <dt>Password:</dt>
         <dd>
             @if (Model.HasPassword)

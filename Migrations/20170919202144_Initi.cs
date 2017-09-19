@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BECaptsone.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,6 @@ namespace BECaptsone.Migrations
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    UserPhoto = table.Column<byte[]>(nullable: true),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     DoctorId = table.Column<int>(nullable: true),
                     Expertise = table.Column<string>(nullable: true),

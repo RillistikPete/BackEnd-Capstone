@@ -12,6 +12,8 @@ namespace BECaptsone.Models.ManageViewModels
 
         public IList<UserLoginInfo> Logins { get; set; }
 
+        public string ImgPath { get; set; }
+
         public string PhoneNumber { get; set; }
 
         public bool TwoFactor { get; set; }

@@ -8,8 +8,8 @@ using BECaptsone.Data;
 namespace BECaptsone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170919165553_Init")]
-    partial class Init
+    [Migration("20170919202144_Initi")]
+    partial class Initi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,8 +60,6 @@ namespace BECaptsone.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
-
-                    b.Property<byte[]>("UserPhoto");
 
                     b.HasKey("Id");
 

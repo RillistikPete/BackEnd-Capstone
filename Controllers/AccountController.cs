@@ -172,13 +172,13 @@ namespace BECaptsone.Controllers
                                     .Parse(file.ContentDisposition)
                                     .FileName
                                     .Trim('"');
-                    filename = _environment.WebRootPath + $@"\images\DoctorPhotos\{file.FileName.Split('\\').Last()}";
+                    filename = _environment.WebRootPath + $@"/DoctorPhotos/{file.FileName.Split('/').Last()}";
                     size += file.Length;
                     using (var fileStream = new FileStream(filename, FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
 
-                        imgPath = $@"\images\DoctorPhotos\{file.FileName.Split('\\').Last()}";
+                        imgPath = $@"/DoctorPhotos/{file.FileName.Split('/').Last()}";
                     }
                 }
                     //creates doctor for tables in DB
