@@ -25,7 +25,7 @@ namespace BECaptsone.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            //instantiate view model
+            //instantiate view model for appt index
             AppointmentViewModel model = new AppointmentViewModel();
 
             model.Appointments = await _context.Appointment
@@ -59,24 +59,24 @@ namespace BECaptsone.Controllers
         }
 
         // GET: Appointment/Create
+
         [Authorize]
         public IActionResult Create()
+        
         {
-            // ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "FullName");
-            // ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "FullName");
-
-            var doctors = Roles.GetUsersInRole("Doctor");
-            SelectList list = new SelectList(doctors);
-            ViewBag.Doctor = list;
-            return View();
+            AppointmentViewModel vm = new AppointmentViewModel();
+            ViewData["DoctorId"] = new SelectList(_context.Doctor, "Id", "FullName");
+            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "FullName");
+            return View(vm);
         }
 
         // POST: Appointment/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,Date,DoctorId,PatientId")] Appointment appointment)
+        public async Task<IActionResult> Create(Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -84,10 +84,16 @@ namespace BECaptsone.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["DoctorId"] = new SelectList(_context.Doctor, "DoctorId", "Expertise", appointment.DoctorId);
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "FirstName", appointment.PatientId);
-            return View(appointment);
+            
+            return RedirectToAction("Create", "Appointment");
         }
+
+
+
+
+
+
+
 
         // GET: Appointment/Edit/5
         public async Task<IActionResult> Edit(int? id)

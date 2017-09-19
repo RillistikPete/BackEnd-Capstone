@@ -6,6 +6,8 @@ namespace BECaptsone.Models
 {
     public class Doctor : ApplicationUser
     {
+        public int DoctorId { get; set; }
+
 
         [Required]
         public string Expertise { get; set; }
