@@ -14,6 +14,9 @@ using BECaptsone.Models.AccountViewModels;
 using BECaptsone.Services;
 using BECaptsone.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.IO;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BECaptsone.Controllers
 {
@@ -28,6 +31,8 @@ namespace BECaptsone.Controllers
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
         private readonly ApplicationDbContext _context; 
+
+        private readonly IHostingEnvironment _environment;
         
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -35,7 +40,8 @@ namespace BECaptsone.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ApplicationDbContext context,  
+            ApplicationDbContext context,
+            IHostingEnvironment environment,  
               
             ILoggerFactory loggerFactory)
         {
@@ -47,6 +53,7 @@ namespace BECaptsone.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _context = context;
             _userstore = new UserStore<ApplicationUser>(context);
+            _environment = environment;
         }
 
           
@@ -157,8 +164,25 @@ namespace BECaptsone.Controllers
 
                 if (model.UserRoles == "Doctor")
                 {
+                long size = 0;
+                string imgPath = "";
+                foreach (var file in model.image)
+                {
+                    var filename = ContentDispositionHeaderValue
+                                    .Parse(file.ContentDisposition)
+                                    .FileName
+                                    .Trim('"');
+                    filename = _environment.WebRootPath + $@"\images\DoctorPhotos\{file.FileName.Split('\\').Last()}";
+                    size += file.Length;
+                    using (var fileStream = new FileStream(filename, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+
+                        imgPath = $@"\images\DoctorPhotos\{file.FileName.Split('\\').Last()}";
+                    }
+                }
                     //creates doctor for tables in DB
-                    var user = new Doctor { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, FirstName = model.FirstName, LastName = model.LastName, Expertise = model.Expertise };
+                    var user = new Doctor { UserName = model.Email, Email = model.Email, CustomUserName = model.CustomUserName, FirstName = model.FirstName, LastName = model.LastName, Expertise = model.Expertise, ImgPath = imgPath };
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {

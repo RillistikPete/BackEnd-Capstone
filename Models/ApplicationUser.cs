@@ -32,6 +32,8 @@ namespace BECaptsone.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        public byte[] UserPhoto { get; set; }
+
         public ICollection<Doctor> Doctors { get; set; }
         public ICollection<Patient> Patients { get; set; }
 

@@ -33,9 +33,7 @@ namespace BECaptsone.Controllers
                 .Include(a => a.Doctor)
                 .ToListAsync();
 
-            // var ApplicationDbContext = _context.Appointment.Include(a => a.Doctor).Include(a => a.Patient);
             return View(model);
-            // return View(apptViewModel);
         }
 
         // GET: Appointment/Details/5
@@ -87,12 +85,6 @@ namespace BECaptsone.Controllers
             
             return RedirectToAction("Create", "Appointment");
         }
-
-
-
-
-
-
 
 
         // GET: Appointment/Edit/5

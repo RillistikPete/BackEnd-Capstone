@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BECaptsone.Migrations
 {
-    public partial class @new : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,6 @@ namespace BECaptsone.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    CustomUserName = table.Column<string>(nullable: true),
                     Discriminator = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -31,9 +30,11 @@ namespace BECaptsone.Migrations
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    UserPhoto = table.Column<byte[]>(nullable: true),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     DoctorId = table.Column<int>(nullable: true),
                     Expertise = table.Column<string>(nullable: true),
+                    ImgPath = table.Column<string>(nullable: true),
                     PatientId = table.Column<int>(nullable: true),
                     StateOfIllness = table.Column<string>(maxLength: 100, nullable: true)
                 },
@@ -83,23 +84,21 @@ namespace BECaptsone.Migrations
                     AppointmentId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(nullable: false),
-                    DoctorId = table.Column<int>(nullable: false),
-                    DoctorId1 = table.Column<string>(nullable: true),
-                    PatientId = table.Column<int>(nullable: false),
-                    PatientId1 = table.Column<string>(nullable: true)
+                    DoctorId = table.Column<string>(nullable: true),
+                    PatientId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointment", x => x.AppointmentId);
                     table.ForeignKey(
-                        name: "FK_Appointment_AspNetUsers_DoctorId1",
-                        column: x => x.DoctorId1,
+                        name: "FK_Appointment_AspNetUsers_DoctorId",
+                        column: x => x.DoctorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Appointment_AspNetUsers_PatientId1",
-                        column: x => x.PatientId1,
+                        name: "FK_Appointment_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -208,14 +207,14 @@ namespace BECaptsone.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_DoctorId1",
+                name: "IX_Appointment_DoctorId",
                 table: "Appointment",
-                column: "DoctorId1");
+                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_PatientId1",
+                name: "IX_Appointment_PatientId",
                 table: "Appointment",
-                column: "PatientId1");
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

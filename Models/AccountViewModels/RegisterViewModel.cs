@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace BECaptsone.Models.AccountViewModels
 {
@@ -28,6 +29,9 @@ namespace BECaptsone.Models.AccountViewModels
         [Required]
         [Display(Name = "User Name")]
         public string CustomUserName { get; set; }
+
+        public List<IFormFile> image { get; set; } = new List<IFormFile>();
+
 
         [Display(Name = "Expertise")]
         public string Expertise { get; set; }
