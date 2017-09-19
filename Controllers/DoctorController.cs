@@ -9,6 +9,8 @@ using BECaptsone.Data;
 using BECaptsone.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BECaptsone.Controllers
 {

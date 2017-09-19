@@ -11,6 +11,8 @@ namespace BECaptsone.Models
 
         [Required]
         public string Expertise { get; set; }
+
+        public string ImgPath { get; set; }
  
         public virtual ICollection<Appointment> Appointments { get; set; }
     }

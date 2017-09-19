@@ -1,15 +1,22 @@
-﻿@model IndexViewModel
+﻿
+
+@model IndexViewModel
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = "My Account";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>View / Edit your profile</h4>
     <hr />
+
     <dl class="dl-horizontal">
+
+        <dt>Profile Photo:</dt>
+        <img src="">
+        <dt>User Name: @UserManager.CustomUserName</dt>
         <dt>Password:</dt>
         <dd>
             @if (Model.HasPassword)
@@ -48,12 +55,12 @@
                 }*@
         </dd>
 
-        <dt>Two-Factor Authentication:</dt>
+        <!--<dt>Two-Factor Authentication:</dt>
         <dd>
             <p>
                 There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
                 for setting up this application to support two-factor authentication.
-            </p>
+            </p>-->
             @*@if (Model.TwoFactor)
                 {
                     <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">

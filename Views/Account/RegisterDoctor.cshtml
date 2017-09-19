@@ -5,7 +5,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+<form asp-controller="Account" enctype="multipart/form-data" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <h4>Create a new doctor account.</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -58,6 +58,12 @@
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
     </div>
+    
+
+        <label asp-for="image">Upload Image:</label>
+        <input asp-for="image" class="form-control" type="file" name="image" id="image" accept="image/*"/>
+
+
     <input type="hidden" value="Doctor" asp-for="UserRoles">
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

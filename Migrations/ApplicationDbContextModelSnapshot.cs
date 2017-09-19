@@ -25,8 +25,6 @@ namespace BECaptsone.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("CustomUserName");
-
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
@@ -62,6 +60,8 @@ namespace BECaptsone.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<byte[]>("UserPhoto");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -83,19 +83,15 @@ namespace BECaptsone.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("DoctorId");
+                    b.Property<string>("DoctorId");
 
-                    b.Property<string>("DoctorId1");
-
-                    b.Property<int>("PatientId");
-
-                    b.Property<string>("PatientId1");
+                    b.Property<string>("PatientId");
 
                     b.HasKey("AppointmentId");
 
-                    b.HasIndex("DoctorId1");
+                    b.HasIndex("DoctorId");
 
-                    b.HasIndex("PatientId1");
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Appointment");
                 });
@@ -218,6 +214,8 @@ namespace BECaptsone.Migrations
                     b.Property<string>("Expertise")
                         .IsRequired();
 
+                    b.Property<string>("ImgPath");
+
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Doctor");
@@ -248,11 +246,11 @@ namespace BECaptsone.Migrations
                 {
                     b.HasOne("BECaptsone.Models.Doctor", "Doctor")
                         .WithMany("Appointments")
-                        .HasForeignKey("DoctorId1");
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("BECaptsone.Models.Patient", "Patient")
                         .WithMany("Appointments")
-                        .HasForeignKey("PatientId1");
+                        .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
