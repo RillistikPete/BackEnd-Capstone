@@ -5,10 +5,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Account Login";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
+<body style="padding-top:50px;"
 <div class="row">
     <div class="col-md-8">
         <section>
@@ -90,3 +91,5 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+
+</body>

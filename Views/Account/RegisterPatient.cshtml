@@ -2,7 +2,8 @@
 @{
     ViewData["Title"] = "Register";
 }
-
+<body style="padding-top:50px;">
+<div class="container container-wider">
 <h2>@ViewData["Title"]</h2>
 
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
@@ -73,3 +74,5 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+</div>
+</body>
