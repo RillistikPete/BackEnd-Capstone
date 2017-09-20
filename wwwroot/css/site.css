@@ -1,16 +1,6 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
+﻿
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
@@ -48,3 +38,29 @@ textarea {
         display: none;
     }
 }
+
+body{
+background-image: url("//nebula.wsimg.com/446ba02e64d1956765e60296f091a53d?AccessKeyId=8455F52EE60FB6D2836C&alloworigin=1");
+margin: auto;
+background-position-x:center;
+background-position-y: top;
+background-position: center top;
+background-repeat: no-repeat;
+position: fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+width: 100%;
+height: 100%;
+overflow: hidden;
+font-family: 'Roboto', 'sans-serif'; 
+padding-top:50px;
+padding-bottom: 20px;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+

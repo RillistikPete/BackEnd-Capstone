@@ -8,12 +8,31 @@
 
     <h4>Choose your role to create a new account:</h4>
     <hr />
-    
+<div class="container container-wider">
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <a asp-action="RegisterDocOrPat" asp-route-id="Doctor" class="btn btn-default">Register As Doctor</a>
+            <a data-toggle="modal" data-target="#authDoctor" class="btn btn-default">Register As Doctor</a>
         </div>
     </div>
+
+                <div class="modal fade" id="authDoctor" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Enter Doctor Authorization Code:</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input id="input" type="password">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" id="submitModal" class="btn btn-primary">Enter</button>
+                        </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
     <br>
     <br>
     <br>
@@ -27,3 +46,4 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+</div>
