@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using BECaptsone.Models;
 using BECaptsone.Models.ManageViewModels;
 using BECaptsone.Services;
+using BECaptsone.Data;
 
 namespace BECaptsone.Controllers
 {
@@ -22,6 +23,7 @@ namespace BECaptsone.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly ApplicationDbContext _context;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
@@ -29,6 +31,7 @@ namespace BECaptsone.Controllers
           IOptions<IdentityCookieOptions> identityCookieOptions,
           IEmailSender emailSender,
           ISmsSender smsSender,
+          ApplicationDbContext context,
           ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
@@ -37,6 +40,7 @@ namespace BECaptsone.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _context = context;
         }
 
         //
@@ -54,12 +58,17 @@ namespace BECaptsone.Controllers
                 : "";
 
             var user = await GetCurrentUserAsync();
+
+            //Line below takes a single doctor and matches with the current user id
+            var doctor = _context.Doctor.SingleOrDefault(d => d.Id == user.Id);
             if (user == null)
             {
                 return View("Error");
             }
             var model = new IndexViewModel
+
             {
+                ImgPath = doctor.ImgPath,
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),

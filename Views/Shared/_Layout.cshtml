@@ -7,48 +7,97 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </environment>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="color:black;font-size:20px;font-weight:bold;">Medical Portal</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a class="navLink" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a class="navLink" asp-area="" asp-controller="Doctor" asp-action="Index">Doctors</a></li>
-                    <li><a class="navLink" asp-area="" asp-controller="Appointment" asp-action="Index">Appointments</a></li>
-                    <li><a class="navLink" asp-area="" asp-controller="Patient" asp-action="Index">Patients</a></li>
-                    <li><a class="navLink" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
+    <!--<div class="container">
+        <div class="row rowWide">
+            <div class="headerBox">
+                <img src="//nebula.wsimg.com/6f5cdbec08f5f14a7989281f2c0397fa?AccessKeyId=8455F52EE60FB6D2836C&disposition=0&alloworigin=1" style="width:95px;height:95px;">
+                <p class="col-md-6" style="float:right;-webkit-margin-before: 1em;-webkit-margin-after: 1em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;"><span class="editor-logo">Waynesborough <br>Ophthalmology</span></p>
             </div>
         </div>
-    </nav>
+    </div>-->
+    <div class="container">
+            <nav class="navbar">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="color:black;font-size:20px;font-weight:bold;">Medical Portal</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a class="navLink" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a class="navLink" asp-area="" asp-controller="Doctor" asp-action="Index">Doctors</a></li>
+                        <li><a class="navLink" asp-area="" asp-controller="Appointment" asp-action="Index">Appointments</a></li>
+                        <li><a class="navLink" asp-area="" asp-controller="Patient" asp-action="Index">Patients</a></li>
+                        <li><a class="navLink" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    </ul>
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
+            </nav>
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - PatientPortal by Pete</p>
-        </footer>
+
+    <footer class="text-center">
+ 
+        <div class="container">
+          <div class="row">
+            <div class="footer-col col-md-4">
+            </div>
+            <div class="footer-col col-md-4">
+              <h3>On the Web</h3>
+              <br>
+              <p>petergforrest91@gmail.com</p>
+              <ul class="list-inline-footer"  style="list-style-type:none;display:inline;">
+                <li class="list-inline-item">
+                  <a class="btn-social btn-outline" href="https://www.facebook.com/pages/Waynesborough-Ophthalmology-PA/103297346402039">
+                    <i class="fa fa-fw fa-facebook"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="btn-social btn-outline" href="https://www.linkedin.com/in/peter-forrest-345b05143/">
+                    <i class="fa fa-fw fa-home"></i>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+            <div class="footer-col col-md-4">
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              Copyright &copy; Gavin Forrest 2017
+            </div>
+          </div>
+        </div>
+
+    </footer>
+
+
     </div>
 
     <environment names="Development">
