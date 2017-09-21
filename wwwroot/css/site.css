@@ -4,7 +4,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 320px;
 }
 
 /* Carousel */
@@ -64,3 +64,57 @@ padding-bottom: 20px;
     padding-right: 15px;
 }
 
+#authDoctor {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+table thead{
+    font-size: 16px;
+    border: .5px solid lightslategray;
+}
+table td{
+    padding: 5px;
+}
+table{
+    background-color: rgba(245,245,245,0.5);
+
+    border-collapse: separate;
+    border: 2px solid lightslategray;
+    border-radius: 8px;
+    box-shadow: 3px 3px 1px lightslategray;
+}
+
+.box-behind {
+    background-color: rgba(245,245,245,0.5);
+}
+
+.loginBoxHome{
+    margin: auto;
+    text-align:center;
+}
+
+.navbar {
+    margin: auto;
+    width: 80%;
+    height: 50px;
+    background-color: rgba(245,245,245,0.5);
+}
+a.navLink{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+}
+a.navLink:hover{
+    padding: 15px;
+    border-radius: 4px;
+	transition-duration: .48s;
+    background-color: black !important;
+    color: white;
+}
+
+button.navLink {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+}
