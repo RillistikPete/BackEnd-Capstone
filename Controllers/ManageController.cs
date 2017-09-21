@@ -58,27 +58,47 @@ namespace BECaptsone.Controllers
                 : "";
 
             var user = await GetCurrentUserAsync();
+            
+            if (User.IsInRole("Doctor")){
 
             //Line below takes a single doctor and matches with the current user id
             var doctor = _context.Doctor.SingleOrDefault(d => d.Id == user.Id);
-            if (user == null)
-            {
-                return View("Error");
-            }
-            var model = new IndexViewModel
+                if (user == null)
+                {
+                    return View("Error");
+                }
+                var model = new IndexViewModel()
 
-            {
-                ImgPath = doctor.ImgPath,
-                HasPassword = await _userManager.HasPasswordAsync(user),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
-                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
-                Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
-            };
-            return View(model);
+                {
+                    ImgPath = doctor.ImgPath,
+                    HasPassword = await _userManager.HasPasswordAsync(user),
+                    PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
+                    TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
+                    Logins = await _userManager.GetLoginsAsync(user),
+                    BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                };
+                return View(model);
+
+            } else
+                {
+                if (user == null)
+                {
+                    return View("Error");
+                }
+                var model = new IndexViewModel()
+
+                {
+                    HasPassword = await _userManager.HasPasswordAsync(user),
+                    PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
+                    TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
+                    Logins = await _userManager.GetLoginsAsync(user),
+                    BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                };
+                return View(model);
+                }
         }
 
-        //
+
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
