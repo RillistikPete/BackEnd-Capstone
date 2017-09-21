@@ -1,12 +1,39 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using BECaptsone.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="container">
-    <div class="row">
-            <div class="col-lg-6">Hi</div>
-            <div class="col-lg-6">Hi</div>
+    <div class="box-behind">
+
+        <div class="box" style="margin-top:30px;padding:20px;">
+            
+            <h1 style="text-align:center;padding:20px;">WELCOME TO MEDICAL PORTAL<br /> 
+            DOCTOR & PATIENT ACCOUNT MANAGEMENT</h1>
+
+            <p style="text-align:justify;padding:20px;font-size:18px;">Medical Portal is a web application for medical businesses to utilize for workspace operation management.
+                    It also allows patients to create accounts for coordinating with offices.<br><br />
+
+            Doctors can register accounts to manage their patient schedules. Doctors are able to view and add current patients,
+            appointments, and view information on all current patients/doctors, as well as manage a user profile.<br><br />
+
+            Patients can register a patient account, allowing log-in functionality and the ability to create appointments,
+            view their appointment schedule, view a list of current doctors available, and manage their user profile.</p> 
+        </div>
+
+@if (!SignInManager.IsSignedIn(User))
+{
+        <div class="loginBoxHome">
+            <h2><a asp-area="" class="btn btn-default btn-lg" asp-controller="Account" asp-action="Login">Log in</a></h2>
+            <h2><a asp-area="" class="btn btn-default btn-lg" asp-controller="Account" asp-action="Register">Register</a></h2>
+        </div>
+}
     </div>
-</div>
+</div> 
 
 
