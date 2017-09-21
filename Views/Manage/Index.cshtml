@@ -1,9 +1,15 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@using BECaptsone.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @model IndexViewModel
 @{
     ViewData["Title"] = "My Account";
 }
 
+@if (@User.IsInRole("Doctor")){
 <h2>@ViewData["Title"]</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
@@ -14,7 +20,9 @@
     <dl class="dl-horizontal">
 
         <dt>Profile Photo:</dt>
-        <img src="@Model.ImgPath">
+        <dd>
+        <img class="img-responive" height="160px" width="140px" src="@Model.ImgPath">
+        </dd>
         <dt></dt>
         <dt>Password:</dt>
         <dd>
@@ -48,24 +56,57 @@
             <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
         </dd>
 
-        <!--<dt>Two-Factor Authentication:</dt>
+    </dl>
+</div>
+
+} else 
+{
+
+<h2>@ViewData["Title"]</h2>
+<p class="text-success">@ViewData["StatusMessage"]</p>
+
+<div>
+    <h4>View / Edit your profile</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+
+
+        <dt></dt>
+        <dt>Password:</dt>
         <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for setting up this application to support two-factor authentication.
-            </p>-->
-            @*@if (Model.TwoFactor)
+            @if (Model.HasPassword)
+            {
+                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
+            }
+            else
+            {
+                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
+            }
+        </dd>
+        <dt>Phone Number:</dt>
+        <dd>
+                @if (Model.PhoneNumber != null)
                 {
-                    <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
-                        Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
+                    <br />
+                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Change</a>
+                    <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post">
+                        [<button type="submit" class="btn-link">Remove</button>]
                     </form>
                 }
                 else
                 {
-                    <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
-                        <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
-                    </form>
-                }*@
+                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Add</a>
+                }
         </dd>
+        <dt>External Logins:</dt>
+        <dd>
+
+            <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
+        </dd>
+
     </dl>
 </div>
+
+
+}

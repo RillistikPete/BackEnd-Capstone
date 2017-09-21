@@ -78,7 +78,7 @@ table td{
 }
 table{
     background-color: rgba(245,245,245,0.5);
-
+    padding-left: 30px;
     border-collapse: separate;
     border: 2px solid lightslategray;
     border-radius: 8px;
@@ -96,7 +96,7 @@ table{
 
 .navbar {
     margin: auto;
-    width: 80%;
+    width: 81%;
     height: 50px;
     background-color: rgba(245,245,245,0.5);
 }
@@ -117,4 +117,23 @@ button.navLink {
     color: black;
     font-size: 18px;
     font-weight: bold;
+}
+
+span.editor-logo {
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1em;
+    color: #221E1F;
+    line-height: 1em;
+}
+
+.headerBox{
+    display: inline-block;
+}
+.rowWide{
+    width: 100%;
+}
+div.footer-col .col-md-4{
+    padding-bottom: 30px;
+    margin-bottom: 30px;
 }
