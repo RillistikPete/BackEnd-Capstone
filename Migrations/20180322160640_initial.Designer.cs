@@ -8,8 +8,8 @@ using BECaptsone.Data;
 namespace BECaptsone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170919202144_Initi")]
-    partial class Initi
+    [Migration("20180322160640_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

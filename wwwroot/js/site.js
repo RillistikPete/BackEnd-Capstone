@@ -9,7 +9,7 @@
                             break;
                         default:
                             alert("Access Denied");
-                            event.preventDefault();
+                            //event.preventDefault();
                             break;
                     };
                 });
